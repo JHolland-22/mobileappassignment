@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Assignment1</string>
+    <string name="app_cloth_name">Clothes</string>
+    <string name="button_addCloth">Add Clothing</string>
+    <string name="hint_clothTitle">Clothing Title</string>
+    <string name="hint_clothDescription">Clothing Description</string>
+    <string name="menu_addCloth">Add</string>
+    <string name="menu_cancelCloth">Cancel</string>
+    <string name="enter_cloth_title"> Please enter a Clothing Title </string>
+    <string name="save_cloth"> Save Clothing </string>
+    <string name="button_addImage_cloth"> Add Image </string>
+    <string name="select_cloth_image">Select clothing image</string>
+
+</resources>
