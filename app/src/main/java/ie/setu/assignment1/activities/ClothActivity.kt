@@ -35,6 +35,11 @@ class ClothActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val autocomp = findViewById<AutoCompleteTextView>(R.id.auto_complete_txt)
+        val button = findViewById<Button>(R.id.button)
+        button.setOnClickListner(View.OnCLickListner{
+            Toast.makeText(applicationContext, " value us  = "+ autocomp.text.toString(), Toast.LENGTH_SHORT.show()
+            )
+        })
         val adapterArray = ArrayAdapter(applicationContext, android.R.layout.simple_spinner_dropdown_item.clothingitems)
         autocomp.setAdapter(adapterArray)
         autocomp.onItemClickListener(AdapterView.OnItemClickListener { parent, view, position, id ->
