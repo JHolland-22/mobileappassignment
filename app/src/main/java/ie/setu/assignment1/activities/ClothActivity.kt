@@ -6,6 +6,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import ie.setu.assignment1.databinding.ActivityClothBinding
@@ -19,6 +23,9 @@ import timber.log.Timber
 
 class ClothActivity : AppCompatActivity() {
 
+
+    val clothingitems arrayOf ("jumpers", "crewnecks", "socks", "shorts")
+
     private lateinit var binding: ActivityClothBinding
     var cloth: ClothModel = ClothModel()
     lateinit var app: MainApp
@@ -26,6 +33,13 @@ class ClothActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val autocomp = findViewById<AutoCompleteTextView>(R.id.auto_complete_txt)
+        val adapterArray = ArrayAdapter(applicationContext, android.R.layout.simple_spinner_dropdown_item.clothingitems)
+        autocomp.setAdapter(adapterArray)
+        autocomp.onItemClickListener(AdapterView.OnItemClickListener { parent, view, position, id ->
+            Toast.makeText(applicationContext, "clicked item = " + clothingitems[position], Toast.LENGTH_SHORT).show()
+        })
 
         var edit = false
 
