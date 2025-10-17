@@ -1,12 +1,8 @@
 package ie.setu.assignment1.activities
 
-
 import ie.setu.assignment1.R
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
@@ -23,33 +19,18 @@ import timber.log.Timber
 
 class ClothActivity : AppCompatActivity() {
 
-
-    val clothingitems arrayOf ("jumpers", "crewnecks", "socks", "shorts")
+    private val clothingItems = arrayOf("jumpers", "crewnecks", "socks", "shorts")
 
     private lateinit var binding: ActivityClothBinding
-    var cloth: ClothModel = ClothModel()
-    lateinit var app: MainApp
-    private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
+    private var cloth: ClothModel = ClothModel()
+    private lateinit var app: MainApp
+    private lateinit var imageIntentLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val autocomp = findViewById<AutoCompleteTextView>(R.id.auto_complete_txt)
-        val button = findViewById<Button>(R.id.button)
-        button.setOnClickListner(View.OnCLickListner{
-            Toast.makeText(applicationContext, " value us  = "+ autocomp.text.toString(), Toast.LENGTH_SHORT.show()
-            )
-        })
-        val adapterArray = ArrayAdapter(applicationContext, android.R.layout.simple_spinner_dropdown_item.clothingitems)
-        autocomp.setAdapter(adapterArray)
-        autocomp.onItemClickListener(AdapterView.OnItemClickListener { parent, view, position, id ->
-            Toast.makeText(applicationContext, "clicked item = " + clothingitems[position], Toast.LENGTH_SHORT).show()
-        })
-
-        var edit = false
-
         binding = ActivityClothBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         binding.toolbarAdd.title = title
         setSupportActionBar(binding.toolbarAdd)
 
@@ -57,10 +38,16 @@ class ClothActivity : AppCompatActivity() {
 
         Timber.i("Clothes Activity started...")
 
+        val autocomp = binding.autoCompleteTxt
+        val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, clothingItems)
+        autocomp.setAdapter(adapter)
+        autocomp.setOnItemClickListener { parent, view, position, id ->
+            Toast.makeText(this, "Clicked: ${clothingItems[position]}", Toast.LENGTH_SHORT).show()
+        }
+
+        var edit = false
         if (intent.hasExtra("cloth_edit")) {
             edit = true
-            // Requires API 33+
-            // cloth = intent.getParcelableExtra("cloth_edit",ClothModel::class.java)!!
             cloth = intent.extras?.getParcelable("cloth_edit")!!
             binding.clothTitle.setText(cloth.title)
             binding.description.setText(cloth.description)
@@ -70,12 +57,11 @@ class ClothActivity : AppCompatActivity() {
                 .into(binding.clothImage)
         }
 
-        binding.btnAdd.setOnClickListener() {
+        binding.btnAdd.setOnClickListener {
             cloth.title = binding.clothTitle.text.toString()
             cloth.description = binding.description.text.toString()
             if (cloth.title!!.isEmpty()) {
-                Snackbar.make(it, R.string.enter_cloth_title, Snackbar.LENGTH_LONG)
-                    .show()
+                Snackbar.make(it, R.string.enter_cloth_title, Snackbar.LENGTH_LONG).show()
             } else {
                 if (edit) {
                     app.cloths.update(cloth.copy())
@@ -83,7 +69,7 @@ class ClothActivity : AppCompatActivity() {
                     app.cloths.create(cloth.copy())
                 }
             }
-            Timber.i("add Button Pressed: $cloth")
+            Timber.i("Add button pressed: $cloth")
             setResult(RESULT_OK)
             finish()
         }
@@ -95,38 +81,29 @@ class ClothActivity : AppCompatActivity() {
         registerImagePickerCallback()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+    override fun onCreateOptionsMenu(menu: android.view.Menu): Boolean {
         menuInflater.inflate(R.menu.menu_cloth, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.item_cancel -> {
-                finish()
-            }
-        }
+    override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
+        if (item.itemId == R.id.item_cancel) finish()
         return super.onOptionsItemSelected(item)
     }
 
     private fun registerImagePickerCallback() {
-        imageIntentLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-            { result ->
-                when(result.resultCode){
-                    RESULT_OK -> {
-                        if (result.data != null) {
-                            Timber.i("Got Result ${result.data!!.data}")
-                            cloth.image = result.data!!.data!!
-                            Picasso.get()
-                                .load(cloth.image)
-                                .into(binding.clothImage)
-                        } // end of if
+        imageIntentLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            when(result.resultCode) {
+                RESULT_OK -> {
+                    result.data?.data?.let {
+                        Timber.i("Got Result $it")
+                        cloth.image = it
+                        Picasso.get().load(it).into(binding.clothImage)
                     }
-                    RESULT_CANCELED -> { } else -> { }
                 }
+                RESULT_CANCELED -> {}
+                else -> {}
             }
+        }
     }
 }
-
-
