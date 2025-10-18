@@ -53,19 +53,7 @@
                     android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Cloth title made it false for the moment gonna try get drop down menu working -->
-            <EditText
-                android:id="@+id/clothTitle"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:hint="@string/hint_clothTitle"
-                android:inputType="text"
-                android:maxLength="25"
-                android:maxLines="1"
-                android:padding="8dp"
-                android:textColor="@color/black"
-                android:enabled="false"
-                android:textSize="14sp" />
+            <!-- Cloth title gone  for the moment gonna try get drop down menu working -->
             <!-- Description -->
             <EditText
                 android:id="@+id/description"
@@ -114,11 +102,7 @@
                 android:textSize="16sp"
                 tools:ignore="VisualLintButtonSize" />
 
-            <Button
-                android:id="@+id/button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Button" />
+
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

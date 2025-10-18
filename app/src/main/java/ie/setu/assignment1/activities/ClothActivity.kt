@@ -51,7 +51,7 @@ class ClothActivity : AppCompatActivity() {
         if (intent.hasExtra("cloth_edit")) {
             edit = true
             cloth = intent.extras?.getParcelable("cloth_edit")!!
-            binding.clothTitle.setText(cloth.title)
+           // binding.clothTitle.setText(cloth.title)
             binding.description.setText(cloth.description)
             binding.btnAdd.setText(R.string.save_cloth)
             Picasso.get()
@@ -73,8 +73,11 @@ class ClothActivity : AppCompatActivity() {
                     app.cloths.create(cloth.copy())
                 }
             }
-            Timber.i("Add button pressed: $cloth")
             setResult(RESULT_OK)
+            Snackbar.make(it, "Cloth added successfully!", Snackbar.LENGTH_SHORT).show()
+            binding.description.text.clear()
+            setResult(RESULT_OK)
+            finish()
         }
 
         binding.chooseImage.setOnClickListener {

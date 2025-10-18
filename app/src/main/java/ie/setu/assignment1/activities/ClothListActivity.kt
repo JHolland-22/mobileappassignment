@@ -30,8 +30,8 @@ class ClothListActivity : AppCompatActivity(), ClothListener {
 
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter
-        ClothAdapter(app.cloths.findAll(), this)
+        binding.recyclerView.adapter = ClothAdapter(app.cloths.findAll(), this)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
