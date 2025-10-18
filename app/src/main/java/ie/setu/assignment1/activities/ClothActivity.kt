@@ -60,10 +60,12 @@ class ClothActivity : AppCompatActivity() {
         }
 
         binding.btnAdd.setOnClickListener {
-            cloth.title = binding.clothTitle.text.toString()
+            val selectedTitle = binding.autoCompleteTxt.text.toString()
+            cloth.title = selectedTitle
+           // cloth.title = binding.clothTitle.text.toString()
             cloth.description = binding.description.text.toString()
             if (cloth.title!!.isEmpty()) {
-                Snackbar.make(it, R.string.enter_cloth_title, Snackbar.LENGTH_LONG).show()
+                Snackbar.make(it, "Please select a clothing item", Snackbar.LENGTH_LONG).show()
             } else {
                 if (edit) {
                     app.cloths.update(cloth.copy())
@@ -73,7 +75,6 @@ class ClothActivity : AppCompatActivity() {
             }
             Timber.i("Add button pressed: $cloth")
             setResult(RESULT_OK)
-            finish()
         }
 
         binding.chooseImage.setOnClickListener {

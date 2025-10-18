@@ -53,7 +53,7 @@
                     android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Cloth title -->
+            <!-- Cloth title made it false for the moment gonna try get drop down menu working -->
             <EditText
                 android:id="@+id/clothTitle"
                 android:layout_width="match_parent"
@@ -64,8 +64,8 @@
                 android:maxLines="1"
                 android:padding="8dp"
                 android:textColor="@color/black"
+                android:enabled="false"
                 android:textSize="14sp" />
-
             <!-- Description -->
             <EditText
                 android:id="@+id/description"
