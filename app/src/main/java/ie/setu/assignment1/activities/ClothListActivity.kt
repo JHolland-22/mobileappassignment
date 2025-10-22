@@ -28,6 +28,21 @@ class ClothListActivity : AppCompatActivity(), ClothListener {
         setContentView(binding.root)
         binding.toolbar.title = title
         setSupportActionBar(binding.toolbar)
+        searchView = findViewById(R.id.searchView)
+        searchView.clearFocus();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryListener() {
+
+            @Override
+            public boolean onQueryTextSubmit (String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange (String newText) {
+                filterList(newText);
+                return true;
+            }
+        });
 
         app = application as MainApp
 
