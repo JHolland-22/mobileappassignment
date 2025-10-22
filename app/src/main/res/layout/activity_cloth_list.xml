@@ -21,12 +21,12 @@
             android:layout_height="wrap_content"
             app:titleTextColor="@color/black" />
 
-        <SearchView
+        <androidx.appcompat.widget.SearchView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/searchView"
             app:queryHint="Search here"
-
+            android:iconifiedByDefault="false"
 
             />
     </com.google.android.material.appbar.AppBarLayout>

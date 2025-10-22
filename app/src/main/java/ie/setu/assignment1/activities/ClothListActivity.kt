@@ -8,16 +8,19 @@ import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.appcompat.widget.SearchView
 import ie.setu.assignment1.databinding.ActivityClothListBinding
 import ie.setu.assignment1.adapters.ClothAdapter
 import ie.setu.assignment1.adapters.ClothListener
 import ie.setu.assignment1.main.MainApp
 import ie.setu.assignment1.models.ClothModel
 
+
 class ClothListActivity : AppCompatActivity(), ClothListener {
 
     lateinit var app: MainApp
     private lateinit var binding: ActivityClothListBinding
+    private SearchView searchView;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
