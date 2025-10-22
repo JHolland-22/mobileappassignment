@@ -15,6 +15,12 @@ class ClothAdapter(private var cloths: List<ClothModel>,
                        private val listener: ClothListener) :
     RecyclerView.Adapter<ClothAdapter.MainHolder>() {
 
+
+        public void setFilteredList(List<Item> filteredList){
+            this.itemList = filteredList;
+            notifyDataSetChanged();
+        }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
         val binding = CardClothBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)

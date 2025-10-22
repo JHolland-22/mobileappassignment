@@ -5,6 +5,7 @@ import ie.setu.assignment1.R
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +19,7 @@ import ie.setu.assignment1.models.ClothModel
 
 class ClothListActivity : AppCompatActivity(), ClothListener {
 
+    private val clothingItems = arrayOf("jumpers", "crewnecks", "socks", "shorts")
     lateinit var app: MainApp
     private lateinit var binding: ActivityClothListBinding
     private SearchView searchView;
@@ -30,15 +32,15 @@ class ClothListActivity : AppCompatActivity(), ClothListener {
         setSupportActionBar(binding.toolbar)
         searchView = findViewById(R.id.searchView)
         searchView.clearFocus();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryListener() {
+        searchView.setOnQueryTextListener(new SearchView . OnQueryListener () {
 
             @Override
-            public boolean onQueryTextSubmit (String query) {
+            public boolean onQueryTextSubmit(String query) {
                 return false;
             }
 
             @Override
-            public boolean onQueryTextChange (String newText) {
+            public boolean onQueryTextChange(String newText) {
                 filterList(newText);
                 return true;
             }
@@ -72,8 +74,7 @@ class ClothListActivity : AppCompatActivity(), ClothListener {
             ActivityResultContracts.StartActivityForResult()
         ) {
             if (it.resultCode == RESULT_OK) {
-                (binding.recyclerView.adapter)?.
-                notifyItemRangeChanged(0,app.cloths.findAll().size)
+                (binding.recyclerView.adapter)?.notifyItemRangeChanged(0, app.cloths.findAll().size)
             }
         }
 
@@ -89,8 +90,27 @@ class ClothListActivity : AppCompatActivity(), ClothListener {
             ActivityResultContracts.StartActivityForResult()
         ) {
             if (it.resultCode == RESULT_OK) {
-                (binding.recyclerView.adapter)?.
-                notifyItemRangeChanged(0,app.cloths.findAll().size)
+                (binding.recyclerView.adapter)?.notifyItemRangeChanged(0, app.cloths.findAll().size)
             }
         }
+
+    private void filterListener(String text)
+    {
+        {}
+        List<Item> filteredList = new ArrayList<>();
+        for (Item item : clothingItems)
+        if (item.getItemName().toLowerCase().contains(text.toLowerCase()))
+        {
+            filteredList.add(item)
+        }
+    }
+
+    if (filteredList.isEmpty()){
+        Toast.makeText(this, "no clothing items found", Toast.LENGTH_SHORT).show();
+    } else {
+        ClothAdapter.setFilteredList(filteredList);
+
+    }
 }
+
+
