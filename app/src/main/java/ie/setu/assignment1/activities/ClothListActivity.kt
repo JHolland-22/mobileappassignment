@@ -9,7 +9,8 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.appcompat.widget.SearchView
+import android.widget.SearchView
+import android.widget.ListView
 import ie.setu.assignment1.databinding.ActivityClothListBinding
 import ie.setu.assignment1.adapters.ClothAdapter
 import ie.setu.assignment1.adapters.ClothListener
@@ -21,8 +22,13 @@ class ClothListActivity : AppCompatActivity(), ClothListener {
 
     private val clothingItems = arrayOf("jumpers", "crewnecks", "socks", "shorts")
     lateinit var app: MainApp
+    lateinit var searchView : SearchView
+    lateinit var listView: ListView
+    lateinit var list : ArrayList<String>
+
+
     private lateinit var binding: ActivityClothListBinding
-    private SearchView searchView;
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,21 +36,12 @@ class ClothListActivity : AppCompatActivity(), ClothListener {
         setContentView(binding.root)
         binding.toolbar.title = title
         setSupportActionBar(binding.toolbar)
+        setContentView(R.layout.activity_cloth_list)
+        title = "search for clothing"
+
         searchView = findViewById(R.id.searchView)
-        searchView.clearFocus();
-        searchView.setOnQueryTextListener(new SearchView . OnQueryListener () {
 
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                filterList(newText);
-                return true;
-            }
-        });
 
         app = application as MainApp
 
@@ -94,23 +91,6 @@ class ClothListActivity : AppCompatActivity(), ClothListener {
             }
         }
 
-    private void filterListener(String text)
-    {
-        {}
-        List<Item> filteredList = new ArrayList<>();
-        for (Item item : clothingItems)
-        if (item.getItemName().toLowerCase().contains(text.toLowerCase()))
-        {
-            filteredList.add(item)
-        }
-    }
-
-    if (filteredList.isEmpty()){
-        Toast.makeText(this, "no clothing items found", Toast.LENGTH_SHORT).show();
-    } else {
-        ClothAdapter.setFilteredList(filteredList);
-
-    }
 }
 
 
