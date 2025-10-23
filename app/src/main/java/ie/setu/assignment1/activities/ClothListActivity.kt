@@ -34,42 +34,44 @@ class ClothListActivity : AppCompatActivity(), ClothListener {
 
 
     private lateinit var binding: ActivityClothListBinding
-    private lateinit var adapter: ArrayAdapter<String>
+    private lateinit var adapter: ClothAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityClothListBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val view = binding.root
-        setContentView(view)
+
         binding.toolbar.title = title
         setSupportActionBar(binding.toolbar)
 
+        app = application as MainApp
+
+        val layoutManager = LinearLayoutManager(this)
+        binding.recyclerView.layoutManager = layoutManager
+
+        adapter = ClothAdapter(app.cloths.findAll(), this)
+        binding.recyclerView.adapter = adapter
 
         setContentView(binding.root)
 
-        setupListView()
         setupSearchView()
     }
 
-    private fun setupListView() {
-        adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, clothingItems)
-        binding.listView.adapter = adapter
-    }
 
     private fun setupSearchView() {
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
             android.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
-                val isMatchFound = clothingItems.contains(p0)
+                val isMatchFound = clothingItems.any{it.contains(p0
+                    .orEmpty(), ignoreCase = true)}
                 val msg = if (isMatchFound) "Found: $p0" else getString(R.string.no_match)
                 Toast.makeText(this@ClothListActivity, msg, Toast.LENGTH_SHORT).show()
                 return false
             }
 
             override fun onQueryTextChange(p0: String?): Boolean {
-                adapter.filter.filter(p0)
+                adapter.filter.filter(p0?.lowercase())
                 return false
             }
         })

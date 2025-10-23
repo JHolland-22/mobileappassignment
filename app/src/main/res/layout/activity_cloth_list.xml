@@ -5,48 +5,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ie.setu.assignment1.activities.ClothListActivity">
+    tools:context="ie.setu.assignment1.activities.ClothListActivity"
+    android:background="@color/white">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:fitsSystemWindows="true"
-        app:elevation="0dip"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        app:elevation="4dp"
+        app:theme="@style/ThemeOverlay.AppCompat.Light">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:titleTextColor="@color/black" />
+            android:layout_height="?attr/actionBarSize"
+            app:titleTextColor="@color/black"
+            android:background="@color/white" />
 
-        <SearchView
+        <androidx.appcompat.widget.SearchView
             android:id="@+id/searchView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:iconifiedByDefault="false"
             android:queryHint="Enter some text..."
-            app:layout_constraintStart_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:iconifiedByDefault="false"
+            android:background="#EEEEEE"
+            android:layout_margin="8dp"
+            android:elevation="2dp" />
 
         <ListView
             android:id="@+id/listView"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searchView" />
-
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:divider="@color/black"
+            android:dividerHeight="1dp"
+            android:background="#FAFAFA" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="666dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
         android:scrollbars="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_constraintTop_toBottomOf="@+id/searchView"/>
+        android:padding="8dp"
+        android:background="#FFFFFF" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
