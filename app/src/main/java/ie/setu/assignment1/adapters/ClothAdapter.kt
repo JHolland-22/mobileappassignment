@@ -2,6 +2,7 @@ package ie.setu.assignment1.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Filter
 import androidx.recyclerview.widget.RecyclerView
 import ie.setu.assignment1.models.ClothModel
 import ie.setu.assignment1.databinding.CardClothBinding
@@ -13,12 +14,10 @@ interface ClothListener {
 
 class ClothAdapter(private var cloths: List<ClothModel>,
                        private val listener: ClothListener) :
-    RecyclerView.Adapter<ClothAdapter.MainHolder>() {
+    RecyclerView.Adapter<ClothAdapter.MainHolder>(), android.widget.Filterable
+{
 
-
-
-
-
+        private var filteredCloths: MutableList<ClothModel> =  cloths.toMutableList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
         val binding = CardClothBinding
@@ -33,6 +32,39 @@ class ClothAdapter(private var cloths: List<ClothModel>,
     }
 
     override fun getItemCount(): Int = cloths.size
+
+   override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val charString = constraint?.toString() ?: ""
+                val filteredList = ArrayList<ClothModel>()
+
+                if (charString.isEmpty()) {
+                    filteredList.addAll(cloths)
+                }else{
+                    cloths.filter {
+                        it.title?.contains(charString, ignoreCase = true) == true || it.description?.contains(
+                            charString,
+                            ignoreCase = true
+                        ) == true
+                    }.forEach { filteredList.add(it) }
+
+                    }
+                return FilterResults().apply { values = filteredList }
+
+                }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                val filtered = results?.values as? ArrayList<ClothModel> ?: ArrayList ()
+                cloths = filtered
+                notifyDataSetChanged()
+
+            }
+
+            }
+        }
+
+
 
     class MainHolder(private val binding : CardClothBinding) :
         RecyclerView.ViewHolder(binding.root) {

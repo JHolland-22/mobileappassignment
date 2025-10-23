@@ -60,28 +60,21 @@ class ClothListActivity : AppCompatActivity(), ClothListener {
 
 
     private fun setupSearchView() {
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
-            android.widget.SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(p0: String?): Boolean {
-                val isMatchFound = clothingItems.any{it.contains(p0
-                    .orEmpty(), ignoreCase = true)}
-                val msg = if (isMatchFound) "Found: $p0" else getString(R.string.no_match)
-                Toast.makeText(this@ClothListActivity, msg, Toast.LENGTH_SHORT).show()
-                return false
-            }
+            binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+                android.widget.SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(p0: String?): Boolean {
+                    val isMatchFound = clothingItems.any{it.contains(p0
+                        .orEmpty(), ignoreCase = true)}
+                    val msg = if (isMatchFound) "Found: $p0" else getString(R.string.no_match)
+                    Toast.makeText(this@ClothListActivity, msg, Toast.LENGTH_SHORT).show()
+                    return false
+                }
 
-            override fun onQueryTextChange(p0: String?): Boolean {
-                adapter.filter.filter(p0?.lowercase())
-                return false
-            }
-        })
-
-
-    app = application as MainApp
-
-        val layoutManager = LinearLayoutManager(this)
-        binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = ClothAdapter(app.cloths.findAll(), this)
+                override fun onQueryTextChange(p0: String?): Boolean {
+                    adapter.filter.filter(p0?.lowercase())
+                    return false
+                }
+            })
 
     }
 
