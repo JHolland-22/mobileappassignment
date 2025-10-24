@@ -54,9 +54,7 @@ class ClothActivity : AppCompatActivity() {
            // binding.clothTitle.setText(cloth.title)
             binding.description.setText(cloth.description)
             binding.btnAdd.setText(R.string.save_cloth)
-            Picasso.get()
-                .load(cloth.image)
-                .into(binding.clothImage)
+
         }
 
         binding.btnAdd.setOnClickListener {
@@ -79,12 +77,6 @@ class ClothActivity : AppCompatActivity() {
             setResult(RESULT_OK)
             finish()
         }
-
-        binding.chooseImage.setOnClickListener {
-            showImagePicker(imageIntentLauncher)
-        }
-
-        registerImagePickerCallback()
     }
 
     override fun onCreateOptionsMenu(menu: android.view.Menu): Boolean {
@@ -97,19 +89,5 @@ class ClothActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun registerImagePickerCallback() {
-        imageIntentLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            when(result.resultCode) {
-                RESULT_OK -> {
-                    result.data?.data?.let {
-                        Timber.i("Got Result $it")
-                        cloth.image = it
-                        Picasso.get().load(it).into(binding.clothImage)
-                    }
-                }
-                RESULT_CANCELED -> {}
-                else -> {}
-            }
-        }
-    }
+
 }

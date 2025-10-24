@@ -24,11 +24,11 @@ import androidx.appcompat.widget.SearchView
 
 class ClothListActivity : AppCompatActivity(), ClothListener {
 
-    private val clothingItems = arrayOf("jumpers", "crewnecks", "socks", "shorts")
+    private val clothingItems = arrayListOf("jumpers", "crewnecks", "socks", "shorts")
     lateinit var app: MainApp
-    lateinit var searchView : SearchView
-    lateinit var listView: ListView
-    lateinit var list : ArrayList<String>
+    //lateinit var searchView : SearchView
+    //lateinit var listView: ListView
+    //lateinit var list : ArrayList<String>
 
 
 
@@ -50,33 +50,42 @@ class ClothListActivity : AppCompatActivity(), ClothListener {
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
 
+
+
         adapter = ClothAdapter(app.cloths.findAll(), this)
         binding.recyclerView.adapter = adapter
 
-        setContentView(binding.root)
 
         setupSearchView()
     }
 
 
     private fun setupSearchView() {
-            binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
-                android.widget.SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(p0: String?): Boolean {
-                    val isMatchFound = clothingItems.any{it.contains(p0
-                        .orEmpty(), ignoreCase = true)}
-                    val msg = if (isMatchFound) "Found: $p0" else getString(R.string.no_match)
-                    Toast.makeText(this@ClothListActivity, msg, Toast.LENGTH_SHORT).show()
-                    return false
-                }
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                applyFilter(query)
+                return false
+            }
 
-                override fun onQueryTextChange(p0: String?): Boolean {
-                    adapter.filter.filter(p0?.lowercase())
-                    return false
-                }
-            })
-
+            override fun onQueryTextChange(newText: String?): Boolean {
+                applyFilter(newText)
+                return false
+            }
+        })
     }
+
+    private fun applyFilter(query: String?) {
+        val q = query
+        val allCloths = app.cloths.findAll()
+        val filtered = when (q) {
+            "" -> allCloths
+            "jumpers", "crewnecks", "socks", "shorts" ->
+                allCloths.filter { it.title?.equals(q, ignoreCase = true) == true }
+            else -> emptyList()
+        }
+        adapter.filteredList(filtered)
+    }
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -98,7 +107,7 @@ class ClothListActivity : AppCompatActivity(), ClothListener {
             ActivityResultContracts.StartActivityForResult()
         ) {
             if (it.resultCode == RESULT_OK) {
-                (binding.recyclerView.adapter)?.notifyItemRangeChanged(0, app.cloths.findAll().size)
+                adapter.filteredList(app.cloths.findAll())
             }
         }
 
@@ -114,7 +123,7 @@ class ClothListActivity : AppCompatActivity(), ClothListener {
             ActivityResultContracts.StartActivityForResult()
         ) {
             if (it.resultCode == RESULT_OK) {
-                (binding.recyclerView.adapter)?.notifyItemRangeChanged(0, app.cloths.findAll().size)
+                adapter.filteredList(app.cloths.findAll())
             }
         }
 

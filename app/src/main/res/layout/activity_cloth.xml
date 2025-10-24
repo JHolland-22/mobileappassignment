@@ -80,28 +80,8 @@
                 android:textSize="16sp" />
 
             <!-- Cloth image -->
-            <ImageView
-                android:id="@+id/clothImage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:importantForAccessibility="no"
-                app:srcCompat="@mipmap/ic_launcher"
-                tools:ignore="ImageContrastCheck" />
 
             <!-- Choose image button -->
-            <Button
-                android:id="@+id/chooseImage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@color/white"
-                android:importantForAccessibility="no"
-                android:padding="8dp"
-                android:text="@string/button_addImage_cloth"
-                android:textColor="@color/cardview_shadow_start_color"
-                android:textSize="16sp"
-                tools:ignore="VisualLintButtonSize" />
-
 
 
         </LinearLayout>

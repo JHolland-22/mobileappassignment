@@ -10,14 +10,18 @@ import ie.setu.assignment1.databinding.CardClothBinding
 
 interface ClothListener {
     fun onClothClick(cloth: ClothModel)
+
 }
+
 
 class ClothAdapter(private var cloths: List<ClothModel>,
                        private val listener: ClothListener) :
-    RecyclerView.Adapter<ClothAdapter.MainHolder>(), android.widget.Filterable
-{
+    RecyclerView.Adapter<ClothAdapter.MainHolder>() {
 
-        private var filteredCloths: MutableList<ClothModel> =  cloths.toMutableList()
+
+    fun filteredList(newList: List<ClothModel>) {
+        cloths = newList
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
         val binding = CardClothBinding
@@ -27,43 +31,11 @@ class ClothAdapter(private var cloths: List<ClothModel>,
     }
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
-        val cloth = cloths[holder.adapterPosition]
+        val cloth = cloths[position]
         holder.bind(cloth, listener)
     }
 
     override fun getItemCount(): Int = cloths.size
-
-   override fun getFilter(): Filter {
-        return object : Filter() {
-            override fun performFiltering(constraint: CharSequence?): FilterResults {
-                val charString = constraint?.toString() ?: ""
-                val filteredList = ArrayList<ClothModel>()
-
-                if (charString.isEmpty()) {
-                    filteredList.addAll(cloths)
-                }else{
-                    cloths.filter {
-                        it.title?.contains(charString, ignoreCase = true) == true || it.description?.contains(
-                            charString,
-                            ignoreCase = true
-                        ) == true
-                    }.forEach { filteredList.add(it) }
-
-                    }
-                return FilterResults().apply { values = filteredList }
-
-                }
-
-            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                val filtered = results?.values as? ArrayList<ClothModel> ?: ArrayList ()
-                cloths = filtered
-                notifyDataSetChanged()
-
-            }
-
-            }
-        }
-
 
 
     class MainHolder(private val binding : CardClothBinding) :
