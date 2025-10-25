@@ -21,6 +21,7 @@ class ClothAdapter(private var cloths: List<ClothModel>,
 
     fun filteredList(newList: List<ClothModel>) {
         cloths = newList
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {

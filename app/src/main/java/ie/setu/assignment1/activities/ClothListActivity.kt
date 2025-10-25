@@ -128,5 +128,3 @@ class ClothListActivity : AppCompatActivity(), ClothListener {
         }
 
 }
-
-

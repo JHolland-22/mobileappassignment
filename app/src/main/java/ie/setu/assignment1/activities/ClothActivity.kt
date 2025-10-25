@@ -51,7 +51,7 @@ class ClothActivity : AppCompatActivity() {
         if (intent.hasExtra("cloth_edit")) {
             edit = true
             cloth = intent.extras?.getParcelable("cloth_edit")!!
-           // binding.clothTitle.setText(cloth.title)
+            // binding.clothTitle.setText(cloth.title)
             binding.description.setText(cloth.description)
             binding.btnAdd.setText(R.string.save_cloth)
 
@@ -60,7 +60,7 @@ class ClothActivity : AppCompatActivity() {
         binding.btnAdd.setOnClickListener {
             val selectedTitle = binding.autoCompleteTxt.text.toString()
             cloth.title = selectedTitle
-           // cloth.title = binding.clothTitle.text.toString()
+            // cloth.title = binding.clothTitle.text.toString()
             cloth.description = binding.description.text.toString()
             if (cloth.title!!.isEmpty()) {
                 Snackbar.make(it, "Please select a clothing item", Snackbar.LENGTH_LONG).show()

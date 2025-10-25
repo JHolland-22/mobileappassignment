@@ -30,6 +30,8 @@ class ClothMemStore : ClothStore {
         }
     }
 
+
+
     private fun logAll() {
         cloths.forEach { i("$it") }
     }

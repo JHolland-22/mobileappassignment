@@ -54,6 +54,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.timber)
     implementation(libs.picasso)
+    implementation(libs.androidx.room.ktx)
 
 
     testImplementation(libs.junit)
